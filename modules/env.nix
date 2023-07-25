@@ -116,8 +116,8 @@ in
 
       # A per-project data directory for runtime information.
       {
-        name = "PRJ_DATA_DIR";
-        eval = "\${PRJ_DATA_DIR:-$PRJ_ROOT/.data}";
+        name = "PRJ_DATA_HOME";
+        eval = "\${PRJ_DATA_HOME:-$PRJ_ROOT/.data}";
       }
     ];
 

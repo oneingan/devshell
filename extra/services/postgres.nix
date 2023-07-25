@@ -79,7 +79,7 @@ in
     env = [
       {
         name = "PGDATA";
-        eval = "$PRJ_DATA_DIR/postgres";
+        eval = "$PRJ_DATA_HOME/postgres";
       }
       {
         name = "PGHOST";

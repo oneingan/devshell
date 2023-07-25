@@ -53,17 +53,17 @@ let
         category = "service groups";
         help = "Start ${description} services";
         command = (pkgs.writeShellScript "${gName}-services-start" ''
-          if [ -e "$PRJ_DATA_DIR/pids/${gName}.pid" ]; then
+          if [ -e "$PRJ_DATA_HOME/pids/${gName}.pid" ]; then
             echo "Already running, refusing to start"
             exit 1
           fi
-          mkdir -p "$PRJ_DATA_DIR/pids/"
+          mkdir -p "$PRJ_DATA_HOME/pids/"
           ${pkgs.honcho}/bin/honcho start -f ${procfile} -d $PRJ_ROOT &
           pid=$!
-          echo $pid > "$PRJ_DATA_DIR/pids/${gName}.pid"
+          echo $pid > "$PRJ_DATA_HOME/pids/${gName}.pid"
           on_stop() {
               kill -TERM $pid
-              rm "$PRJ_DATA_DIR/pids/${gName}.pid"
+              rm "$PRJ_DATA_HOME/pids/${gName}.pid"
               wait $pid
           }
           trap "on_stop" SIGINT SIGTERM SIGHUP
@@ -75,10 +75,10 @@ let
         category = "service groups";
         help = "Stop ${description} services";
         command = (pkgs.writeShellScript "${gName}-services-stop" ''
-          if [ -e "$PRJ_DATA_DIR/pids/${gName}.pid" ]; then
-            pid=$(cat "$PRJ_DATA_DIR/pids/${gName}.pid")
+          if [ -e "$PRJ_DATA_HOME/pids/${gName}.pid" ]; then
+            pid=$(cat "$PRJ_DATA_HOME/pids/${gName}.pid")
             kill -TERM $pid
-            rm "$PRJ_DATA_DIR/pids/${gName}.pid"
+            rm "$PRJ_DATA_HOME/pids/${gName}.pid"
           fi
         '').outPath;
       }
